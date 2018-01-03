@@ -42,6 +42,7 @@ int prime(unsigned long long pr) {
     for (i = 2; i <= j; i++) {
 
         if (pr % i == 0) {
+            std::cout << pr << " is divisible by " << i;
             return 0;
         }
 
@@ -82,8 +83,16 @@ int main() {
 
 	std::cout << "took " << (clock() - start)/1000 << " seconds";*/
 
-	p = 7;
-	q = 13;
+	/* for debugging purposes */
+	//p = 7;
+	//q = 13;
+
+	/* also for debugging purposes */
+	//p = 8134500672385379641;
+	//q = 2293317843902581193;
+
+	p = 117;
+	q = 127;
 
 	std::cout << std::endl << "YOUR PRIMES ARE: " << std::endl << p << " AND " << q;
 
@@ -222,7 +231,7 @@ void encrypt()
 
 void decrypt() {
 
-    long int pt, ct, key = d[0], k;
+    unsigned long long pt, ct, key = d[0], k;
     i = 0;
     while (en[i] != -1) {
         ct = temp[i];
