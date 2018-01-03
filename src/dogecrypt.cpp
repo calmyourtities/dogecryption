@@ -7,26 +7,21 @@
 // Partial Credit to : http://www.sanfoundry.com/cpp-program-implement-rsa-algorithm/
 //============================================================================
 
-#include<iostream>
+#include <iostream>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+#include <random>
+#include <climits>
+#include <ctime>
 
-#include<math.h>
+/* #define ULLONG_MAX 18446744073709551615 */
 
-#include<string.h>
+unsigned long long p, q, n, t, flag, e[100], d[100], temp[100], j, m[100], en[100], i;
 
-#include<stdlib.h>
+std::string msg;
 
-extern "C"
-
-using namespace std;
-
-
-
-long int p, q, n, t, flag, e[100], d[100], temp[100], j, m[100], en[100], i;
-
-//char msg[100];
-string msg;
-
-int prime(long int);
+int prime(unsigned long long);
 
 void ce();
 
@@ -36,21 +31,20 @@ void encrypt();
 
 void decrypt();
 
-int prime(long int pr)
+unsigned long long getBigPrime();
+unsigned long long randULL();
 
-{
-
-    int i;
+int prime(unsigned long long pr) {
+    unsigned long long i;
 
     j = sqrt(pr);
 
-    for (i = 2; i <= j; i++)
+    for (i = 2; i <= j; i++) {
 
-    {
-
-        if (pr % i == 0)
-
+        if (pr % i == 0) {
+            std::cout << pr << " is divisible by " << i;
             return 0;
+        }
 
     }
 
@@ -58,47 +52,57 @@ int prime(long int pr)
 
 }
 
-int main()
+int main() {
 
-{
+	srand(time(NULL));
 
-    cout << "\nENTER FIRST PRIME NUMBER\n";
+	std::cout << "BIG PRIME: " << std::endl;
 
-    cin >> p;
+	/*clock_t start = clock();
 
-    flag = prime(p);
+	p = 0;
 
-    if (flag == 0)
+	int primesFound = 0;
+	for(int tries = 0; primesFound < 2; tries++) {
+		unsigned long long cnum = randULL();
+		std::cout << "checking: " << cnum << std::endl;
+		std::cout << cnum;
+		if(prime(cnum)) {
+			std::cout << " is prime" << std::endl;
+			primesFound++;
+			if(p == 0)
+				p = cnum;
+			else
+				q = cnum;
+		}
+		else
+			std::cout << " is not prime" << std::endl;
 
-    {
+		std::cout << "tested " << (tries+1) << " numbers " << std::endl << "found " << primesFound << " prime(s)" << std::endl;
+	}
 
-        cout << "\nWRONG INPUT\n";
+	std::cout << "took " << (clock() - start)/1000 << " seconds";*/
 
-        exit(1);
+	/* for debugging purposes */
+	//p = 7;
+	//q = 13;
 
-    }
+	/* also for debugging purposes */
+	//p = 8134500672385379641;
+	//q = 2293317843902581193;
 
-    cout << "\nENTER ANOTHER PRIME NUMBER\n";
+	p = 117;
+	q = 127;
 
-    cin >> q;
+	std::cout << std::endl << "YOUR PRIMES ARE: " << std::endl << p << " AND " << q;
 
-    flag = prime(q);
+    std::cout << "\nENTER MESSAGE\n";
 
-    if (flag == 0 || p == q)
+    //std::cin.clear();
+    //std::cin.ignore(INT_MAX, '\n');
+    getline(std::cin, msg);
 
-    {
-
-        cout << "\nWRONG INPUT\n";
-
-        exit(1);
-
-    }
-
-    cout << "\nENTER MESSAGE\n";
-
-    cin.clear();
-    cin.ignore(INT_MAX, '\n');
-    getline(cin, msg);
+    std::cout << "done" << std::endl;
 
     for(long int i = 0; i < msg.size(); i++)
     	m[i] = msg.at(i);
@@ -107,12 +111,16 @@ int main()
 
     t = (p - 1) * (q - 1);
 
+    std::cout << "done" << std::endl;
+
     ce();
 
-    cout << "\nPOSSIBLE VALUES OF e AND d ARE\n";
+    std::cout << "\nPOSSIBLE VALUES OF e AND d ARE\n";
 
     for (i = 0; i < j - 1; i++)
-        cout << e[i] << "\t" << d[i] << "\n";
+        std::cout << e[i] << "\t" << d[i] << "\n";
+
+    std::cout << "done" << std::endl;
 
     encrypt();
 
@@ -122,20 +130,13 @@ int main()
 
 }
 
-void ce()
+void ce() {
 
-{
+    int k = 0;
 
-    int k;
-
-    k = 0;
-
-    for (i = 2; i < t; i++)
-
-    {
+    for (i = 2; i < t; i++) {
 
         if (t % i == 0)
-
             continue;
 
         flag = prime(i);
@@ -148,29 +149,20 @@ void ce()
 
             flag = cd(e[k]);
 
-            if (flag > 0)
-
-            {
-
+            if (flag > 0) {
                 d[k] = flag;
-
                 k++;
-
             }
 
             if (k == 99)
-
                 break;
-
         }
 
     }
 
 }
 
-long int cd(long int x)
-
-{
+long int cd(long int x) {
 
     long int k = 1;
 
@@ -192,7 +184,7 @@ void encrypt()
 
 {
 
-    long int pt, ct, key = e[0], k, len;
+    unsigned long long pt, ct, key = e[0], k, len;
 
     i = 0;
 
@@ -230,32 +222,22 @@ void encrypt()
 
     en[i] = -1;
 
-    cout << "\nTHE ENCRYPTED MESSAGE IS\n";
+    std::cout << "\nTHE ENCRYPTED MESSAGE IS\n";
 
     for (i = 0; en[i] != -1; i++)
-        cout << en[i] << endl;
+        std::cout << en[i] << std::endl;
 
 }
 
-void decrypt()
+void decrypt() {
 
-{
-
-    long int pt, ct, key = d[0], k;
-
+    unsigned long long pt, ct, key = d[0], k;
     i = 0;
-
-    while (en[i] != -1)
-
-    {
-
+    while (en[i] != -1) {
         ct = temp[i];
-
         k = 1;
 
-        for (j = 0; j < key; j++)
-
-        {
+        for (j = 0; j < key; j++) {
 
             k = k * ct;
 
@@ -273,10 +255,38 @@ void decrypt()
 
     m[i] = -1;
 
-    cout << "\nTHE DECRYPTED MESSAGE IS\n";
+    std::cout << "\nTHE DECRYPTED MESSAGE IS\n";
 
     for (i = 0; m[i] != -1; i++)
+        std::cout << (char) m[i];
 
-        cout << (char) m[i];
+}
 
+unsigned long long getBigPrime() {
+	while(true) {
+		unsigned long long prime = randULL();
+		unsigned long long primec = 13;
+		unsigned long long limit = sqrt(prime);
+		std::cout << "TESTING: " << primec << std::endl;
+		if(prime % 2 == 0) continue;
+		if(prime % 3 == 0) continue;
+		if(prime % 5 == 0) continue;
+		if(prime % 7 == 0) continue;
+		if(prime % 11 == 0) continue;
+		if(prime % 13 == 0) continue;
+		while(primec++ < limit)
+			if(prime % primec == 0)
+				continue;
+		return prime;
+	}
+}
+
+unsigned long long randULL() {
+    unsigned long long r = 0;
+
+    for (int i = 0; i < 5; ++i) {
+        r = (r << 15) | (rand() & 0x7FFF);
+    }
+
+    return r & 0xFFFFFFFFFFFFFFFFULL;
 }
