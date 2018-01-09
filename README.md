@@ -1,2 +1,2 @@
 # dogecryption
-doggo-based encryption
+doggo-based encryption written in golang
