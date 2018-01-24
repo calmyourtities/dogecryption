@@ -12,6 +12,12 @@ func main() {
 
 	borkify_init()
 
+	test := "hello world"
+
+	borkify(&test)
+
+	fmt.Println("TEST: " + test)
+
 	fmt.Print("Enter your key: ")
 	reader := bufio.NewReader(os.Stdin)
 	strKey, _ := reader.ReadString('\n')
