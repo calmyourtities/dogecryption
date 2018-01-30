@@ -12,11 +12,17 @@ func main() {
 
 	borkify_init()
 
-	test := "hello world"
+	test := "hi HELLLO y'all are FUCKING plebs"
 
 	borkify(&test)
 
-	fmt.Println("TEST: " + test)
+	fmt.Println("TEST: " + test + "\n")
+
+	fmt.Println("Ready to unborkify...")
+
+	unborkify(&test)
+
+	fmt.Println("UNTEST: " + test)
 
 	fmt.Print("Enter your key: ")
 	reader := bufio.NewReader(os.Stdin)
